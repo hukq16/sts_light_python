@@ -388,18 +388,10 @@ class TypeRarityCardPool:  # this class replaces the original namespace 'TypeRar
         return TypeRarityCardPool.groupSize[int(color)][int(type)][int(rarity)]
 
     # C++ TO PYTHON CONVERTER TASK: Python does not allow method overloads:
-    def getPoolSize(c, type, rarity):
-        return TypeRarityCardPool.getPoolSize(c, type, rarity)
-
-    # C++ TO PYTHON CONVERTER TASK: Python does not allow method overloads:
     def getCardFromPool(color, type, rarity, poolIdx):
         startIdx = TypeRarityCardPool.getPoolOffset(color, type, rarity)
         return TypeRarityCardPool.CARDBLOB[startIdx + poolIdx]
 
-    # C++ TO PYTHON CONVERTER TASK: Python does not allow method overloads:
-    def getCardFromPool(c, type, rarity, poolIdx):
-        startIdx = TypeRarityCardPool.getPoolOffset(c, type, rarity)
-        return TypeRarityCardPool.CARDBLOB[startIdx + poolIdx]
 
 
 class ColorlessRarityCardPool:  # this class replaces the original namespace 'ColorlessRarityCardPool'
