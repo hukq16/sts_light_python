@@ -1,13 +1,7 @@
 ﻿from enum import Enum
 
-#
-# Created by gamerpuppy on 7/4/2021.
-#
-
-
 
 class PlayerStatus(Enum):
-
     # *********    Statuses that use JustApplied  ************
     INVALID = 0
     DOUBLE_DAMAGE = 1
@@ -54,7 +48,7 @@ class PlayerStatus(Enum):
     MANTRA = 35
 
     # Intensity
-    ACCURACY = 36 # todo implement
+    ACCURACY = 36  # todo implement
     AFTER_IMAGE = 37
     BATTLE_HYMN = 38
     BRUTALITY = 39
@@ -110,11 +104,13 @@ class PlayerStatus(Enum):
     # special
     THE_BOMB = 86
 
+
 class Stance(Enum):
     NEUTRAL = 0
     CALM = 1
     WRATH = 2
     DIVINITY = 3
+
 
 class Orb(Enum):
     EMPTY = 0
@@ -122,5 +118,3 @@ class Orb(Enum):
     FROST = 2
     FUSION = 3
     LIGHTNING = 4
-
-
