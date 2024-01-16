@@ -23,6 +23,8 @@ class CardSelectTask(Enum):
     SEEK = 18
     SETUP = 19
     WARCRY = 20
+    def __int__(self):
+        return self.value
 
 
 CARDSELECTTASKSTRINGS = ["INVALID", "ARMAMENTS", "CODEX", "DISCOVERY", "DUAL_WIELD", "EXHAUST_ONE", "EXHAUST_MANY",
