@@ -68,6 +68,8 @@ class MonsterId(Enum):
     TORCH_HEAD = 63
     TRANSIENT = 64
     WRITHING_MASS = 65
+    def __int__(self):
+        return self.value
 
 
 MONSTERIDSTRINGS = ["INVALID = 0", "ACID_SLIME_L", "ACID_SLIME_M", "ACID_SLIME_S", "AWAKENED_ONE", "BEAR",

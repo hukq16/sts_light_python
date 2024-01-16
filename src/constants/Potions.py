@@ -57,6 +57,8 @@ class Potion(Enum):
     STRENGTH_POTION = 41
     SWIFT_POTION = 42
     WEAK_POTION = 43
+    def __int__(self):
+        return self.value
 
 
 potionNames = ["INVALID", "EMPTY_POTION_SLOT", "Ambrosia", "Ancient Potion", "Attack Potion", "Blessing Of The Forge",
@@ -93,6 +95,8 @@ class PotionRarity(Enum):
     UNCOMMON = 1
     RARE = 2
     PLACEHOLDER = 3
+    def __int__(self):
+        return self.value
 
 
 POTIONRARITIES = [PotionRarity.PLACEHOLDER, PotionRarity.PLACEHOLDER, PotionRarity.RARE, PotionRarity.UNCOMMON,

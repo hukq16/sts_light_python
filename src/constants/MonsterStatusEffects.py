@@ -52,6 +52,8 @@ class MonsterStatus(Enum):
     STASIS = 41
 
     INVALID = 42
+    def __int__(self):
+        return self.value
 
 
 enemyStatusStrings = ["Artifact", "Block Return", "Choked", "Corpse Explosion", "Lock On", "Mark", "Metallicize",

@@ -191,6 +191,8 @@ class RelicId(Enum):
     CIRCLET = 178
     RED_CIRCLET = 179
     INVALID = 180
+    def __int__(self):
+        return self.value
 
 
 class RelicTier(Enum):
@@ -202,6 +204,8 @@ class RelicTier(Enum):
     STARTER = 5
     SPECIAL = 6
     INVALID = 7
+    def __int__(self):
+        return self.value
 
 
 relicTierStrings = ["Common", "Uncommon", "Rare", "Boss", "Shop", "Starter", "Special", "Invalid"]

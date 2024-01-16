@@ -373,6 +373,9 @@ class CardId(Enum):
     WREATH_OF_FLAME = 368
     WRITHE = 369
     ZAP = 370
+    
+    def __int__(self):
+        return self.value
 
 
 class CardRarity(Enum):

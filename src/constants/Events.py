@@ -59,6 +59,8 @@ class Event(Enum):
     WHEEL_OF_CHANGE = 54
     WINDING_HALLS = 55
     WORLD_OF_GOOP = 56
+    def __int__(self):
+        return self.value
 
 
 EVENTIDSTRINGS = ["INVALID", "MONSTER", "REST", "SHOP", "TREASURE", "NEOW", "Accursed Blacksmith", "Addict",

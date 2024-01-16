@@ -7,6 +7,9 @@ class CharacterClass(Enum):
     WATCHER = 3
     INVALID = 4
 
+    def __int__(self):
+        return self.value
+
 
 CHARACTERCLASSNAMES = ["Ironclad", "Silent", "Defect", "Watcher"]
 CHARACTERCLASSENUMNAMES = ["IRONCLAD", "SILENT", "DEFECT", "WATCHER"]

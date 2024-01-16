@@ -103,6 +103,8 @@ class PlayerStatus(Enum):
 
     # special
     THE_BOMB = 86
+    def __int__(self):
+        return self.value
 
 
 class Stance(Enum):
