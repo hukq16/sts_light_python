@@ -68,6 +68,7 @@ class MonsterId(Enum):
     TORCH_HEAD = 63
     TRANSIENT = 64
     WRITHING_MASS = 65
+
     def __int__(self):
         return self.value
 

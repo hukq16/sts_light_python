@@ -12,6 +12,7 @@ class Room(Enum):
     BOSS_TREASURE = 7
     NONE = 8
     INVALID = 9
+
     def __int__(self):
         return self.value
 

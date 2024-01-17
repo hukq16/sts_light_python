@@ -299,11 +299,9 @@ class RarityCardPool:  # this class replaces the original namespace 'RarityCardP
     def getPoolSize(color, rarity):
         return RarityCardPool.groupSize[int(color)][int(rarity)]
 
-
     def getCardFromPool(color, rarity, poolIdx):
         startIdx = RarityCardPool.getPoolOffset(color, rarity)
         return RarityCardPool.cardBlob[startIdx + poolIdx]
-
 
 
 class TypeRarityCardPool:  # this class replaces the original namespace 'TypeRarityCardPool'
@@ -374,14 +372,12 @@ class TypeRarityCardPool:  # this class replaces the original namespace 'TypeRar
     def getPoolOffset(color, type, rarity):
         return TypeRarityCardPool.groupOffset[int(color)][int(type)][int(rarity)]
 
-
     def getPoolSize(color, type, rarity):
         return TypeRarityCardPool.groupSize[int(color)][int(type)][int(rarity)]
 
     def getCardFromPool(color, type, rarity, poolIdx):
         startIdx = TypeRarityCardPool.getPoolOffset(color, type, rarity)
         return TypeRarityCardPool.CARDBLOB[startIdx + poolIdx]
-
 
 
 class ColorlessRarityCardPool:  # this class replaces the original namespace 'ColorlessRarityCardPool'

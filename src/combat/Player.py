@@ -9,7 +9,6 @@ from ..constants.Potions import Potion
 from InputState import InputState
 
 
-
 class Player:
 
     def __init__(self):
@@ -943,10 +942,12 @@ class Player:
             self.printIfHaveStatus(pair)
         os.append("}\n")
         return os
+
     def __str__(self):
         os = []
         os.append("Player: {")
-        os.append(f"\thp:({self.curHp}/{self.maxHp}) energy:({self.energy}/{int(self.energyPerTurn)}) block:({self.block})")
+        os.append(
+            f"\thp:({self.curHp}/{self.maxHp}) energy:({self.energy}/{int(self.energyPerTurn)}) block:({self.block})")
         os.append(self.printStatusEffects())
         os.append(self.printRelics())
         os.append(self.printAllInfos())

@@ -191,6 +191,7 @@ class RelicId(Enum):
     CIRCLET = 178
     RED_CIRCLET = 179
     INVALID = 180
+
     def __int__(self):
         return self.value
 
@@ -204,6 +205,7 @@ class RelicTier(Enum):
     STARTER = 5
     SPECIAL = 6
     INVALID = 7
+
     def __int__(self):
         return self.value
 

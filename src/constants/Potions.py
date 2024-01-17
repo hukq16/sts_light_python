@@ -1,7 +1,6 @@
 ﻿from enum import Enum
 
 
-
 class Potion(Enum):
     INVALID = 0
     EMPTY_POTION_SLOT = 1
@@ -57,6 +56,7 @@ class Potion(Enum):
     STRENGTH_POTION = 41
     SWIFT_POTION = 42
     WEAK_POTION = 43
+
     def __int__(self):
         return self.value
 
@@ -95,6 +95,7 @@ class PotionRarity(Enum):
     UNCOMMON = 1
     RARE = 2
     PLACEHOLDER = 3
+
     def __int__(self):
         return self.value
 
@@ -156,20 +157,16 @@ class PotionPool:  # this class replaces the original namespace 'PotionPool'
         return PotionPool.potionPool[int(cc)][idx]
 
 
-
 def getPotionName(p):
     return potionNames[int(p)]
-
 
 
 def getPotionRarity(p):
     return POTIONRARITIES[int(p)]
 
 
-
 def getPotionBaseCost(p):
     return potionRarityPrices[int(getPotionRarity(p))]
-
 
 
 def potionRequiresTarget(p):

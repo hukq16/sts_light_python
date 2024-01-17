@@ -199,6 +199,7 @@ class MonsterMoveId(Enum):
     WRITHING_MASS_WITHER = 194
     WRITHING_MASS_MULTI_STRIKE = 195
     WRITHING_MASS_STRONG_STRIKE = 196
+
     def __int__(self):
         return self.value
 

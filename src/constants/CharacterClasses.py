@@ -1,5 +1,6 @@
 ﻿from enum import Enum
 
+
 class CharacterClass(Enum):
     IRONCLAD = 0
     SILENT = 1

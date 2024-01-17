@@ -45,6 +45,6 @@ class InputState(Enum):
     CREATE_ENCHIRIDION_POWER = 30
 
     SELECT_CONFUSED_CARD_COST = 31
-    
+
     def __int__(self):
         return self.value

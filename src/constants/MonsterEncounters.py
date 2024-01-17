@@ -75,6 +75,7 @@ class MonsterEncounter(Enum):
     MASKED_BANDITS_EVENT = 61
     MUSHROOMS_EVENT = 62
     MYSTERIOUS_SPHERE_EVENT = 63
+
     def __int__(self):
         return self.value
 

@@ -103,6 +103,7 @@ class PlayerStatus(Enum):
 
     # special
     THE_BOMB = 86
+
     def __int__(self):
         return self.value
 
@@ -112,6 +113,7 @@ class Stance(Enum):
     CALM = 1
     WRATH = 2
     DIVINITY = 3
+
     def __int__(self):
         return self.value
 
@@ -122,6 +124,7 @@ class Orb(Enum):
     FROST = 2
     FUSION = 3
     LIGHTNING = 4
+
     def __int__(self):
         return self.value
 
@@ -167,4 +170,3 @@ playerStatusEnumStrings = (
     "VIGOR", "WAVE_OF_THE_HAND", "EQUILIBRIUM", "ARTIFACT", "DEXTERITY",
     "STRENGTH", "THE_BOMB",
 )
-
