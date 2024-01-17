@@ -921,7 +921,7 @@ class Player:
     def printIfHaveStatus(self, s: PlayerStatus):
         os = []
         if not self.hasStatusRuntime(s):
-            return os
+            return ""
         desc = playerStatusStrings[s.value]
         os.append(f"({desc},{self.getStatusRuntime(s)}), ")
         return "".join(os)
@@ -940,7 +940,8 @@ class Player:
         os.append(self.printIfHaveStatus(PlayerStatus.FOCUS))
         os.append(self.printIfHaveStatus(PlayerStatus.STRENGTH))
         for pair in self.statusMap:
-            os.append(self.printIfHaveStatus(pair))
+            if pair != PlayerStatus.CONFUSED and pair != PlayerStatus.CORRUPTION and pair != PlayerStatus.BARRICADE and pair != PlayerStatus.ARTIFACT and pair != PlayerStatus.DEXTERITY and pair != PlayerStatus.FOCUS and pair != PlayerStatus.STRENGTH:
+                os.append(self.printIfHaveStatus(pair))
         os.append("}\n")
         return "".join(os)
 
