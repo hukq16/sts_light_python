@@ -163,17 +163,17 @@ class CardInstance:
                 print(self.upgraded)
         return os
 
-    def triggerOnExhaust(self, bc):
-        if self.id == CardId.SENTINEL:
-            bc.addToTop(Actions.GainEnergy(3 if self.upgraded else 2))
-        elif self.id == CardId.CURSE_OF_THE_BELL:
-            bc.addToBot(Actions.MakeTempCardInHand(CardId.CURSE_OF_THE_BELL))
+    # def triggerOnExhaust(self, bc):
+    #     if self.id == CardId.SENTINEL:
+    #         bc.addToTop(Actions.GainEnergy(3 if self.upgraded else 2))
+    #     elif self.id == CardId.CURSE_OF_THE_BELL:
+    #         bc.addToBot(Actions.MakeTempCardInHand(CardId.CURSE_OF_THE_BELL))
 
-    def triggerOnManualDiscard(self, bc):
-        if self.id == CardId.REFLEX:
-            bc.addToBot(Actions.DrawCards(3 if self.upgraded else 2))
-        elif self.id == CardId.TACTICIAN:
-            bc.addToTop(Actions.GainEnergy(2 if self.upgraded else 1))
+    # def triggerOnManualDiscard(self, bc):
+    #     if self.id == CardId.REFLEX:
+    #         bc.addToBot(Actions.DrawCards(3 if self.upgraded else 2))
+    #     elif self.id == CardId.TACTICIAN:
+    #         bc.addToTop(Actions.GainEnergy(2 if self.upgraded else 1))
 
     def triggerWhenDrawn(self, bc, myHandIdx):
 
@@ -238,28 +238,28 @@ class CardInstance:
         #        return true
         #    }
 
-        # todo grand finale, signature move, reflex, deus ex machina, tactician
-        if self.getType() == CardType.ATTACK:
-            if bc.player.hasStatus():
-                return False
-            if self.getId() == CardId.CLASH and not Globals.canUseClash(bc):
-                return False
+        # # todo grand finale, signature move, reflex, deus ex machina, tactician
+        # if self.getType() == CardType.ATTACK:
+        #     if bc.player.hasStatus():
+        #         return False
+        #     if self.getId() == CardId.CLASH and not Globals.canUseClash(bc):
+        #         return False
 
-        elif self.getType() == CardType.SKILL:
-            if self.id == CardId.SECRET_TECHNIQUE:
-                const
-                bool
-                haveSkill = std::find_if(bc.cards.drawPile.begin(), bc.cards.drawPile.end(), lambda
-                    c: c.getType() == CardType.SKILL) is not bc.cards.drawPile.end();  # todo maybe speed up
-                if not haveSkill:
-                    return False
-            elif self.id == CardId.SECRET_WEAPON:
-                const
-                bool
-                haveAttack = std::find_if(bc.cards.drawPile.begin(), bc.cards.drawPile.end(), lambda
-                    c: c.getType() == CardType.ATTACK) is not bc.cards.drawPile.end();  # todo maybe speed up
-                if not haveAttack:
-                    return False
+        # elif self.getType() == CardType.SKILL:
+        #     if self.id == CardId.SECRET_TECHNIQUE:
+        #         const
+        #         bool
+        #         haveSkill = std::find_if(bc.cards.drawPile.begin(), bc.cards.drawPile.end(), lambda
+        #             c: c.getType() == CardType.SKILL) is not bc.cards.drawPile.end();  # todo maybe speed up
+        #         if not haveSkill:
+        #             return False
+        #     elif self.id == CardId.SECRET_WEAPON:
+        #         const
+        #         bool
+        #         haveAttack = std::find_if(bc.cards.drawPile.begin(), bc.cards.drawPile.end(), lambda
+        #             c: c.getType() == CardType.ATTACK) is not bc.cards.drawPile.end();  # todo maybe speed up
+        #         if not haveAttack:
+        #             return False
 
         elif self.getType() == CardType.CURSE:
             if not bc.player.hasRelic():

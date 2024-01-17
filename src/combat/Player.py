@@ -1,12 +1,12 @@
 ﻿import math
 from ..constants.PlayerStatusEffects import Stance
 from bitarray import bitarray
-from ..constants.PlayerStatusEffects import PlayerStatus, playerStatusStrings
+from ..constants.PlayerStatusEffects import *
 from ..constants.Relics import RelicId, getRelicName
 from ..constants.Cards import CardId
-from CardInstance import CardInstance
+from .CardInstance import CardInstance
 from ..constants.Potions import Potion
-from InputState import InputState
+from .InputState import InputState
 
 
 class Player:
@@ -14,7 +14,7 @@ class Player:
     def __init__(self):
         self.cc = None
         self.gold = 0
-        self.curHp = 8000
+        self.curHp = 80
         self.maxHp = 80
         self.energy = 0
         self.energyPerTurn = 3
@@ -886,7 +886,7 @@ class Player:
                 os.append(getRelicName(r) + ", ")
             i += 1
         os.append("\n")
-        return os
+        return "".join(os)
 
     def printAllInfos(self):
         os = []
@@ -916,14 +916,15 @@ class Player:
                       "Power," if self.orangePelletsCardTypesPlayed[2] else "") + "}")
         os.append(s + "cardsDiscardedThisTurn: " + str(int(self.cardsDiscardedThisTurn)))
         os.append(s + "gold: " + str(int(self.gold)) + '\n')
-        return os
+        return "".join(os)
 
     def printIfHaveStatus(self, s: PlayerStatus):
         os = []
         if not self.hasStatusRuntime(s):
             return os
         desc = playerStatusStrings[s.value]
-        return os.append(f"({desc},{self.getStatusRuntime(s)}), ")
+        os.append(f"({desc},{self.getStatusRuntime(s)}), ")
+        return "".join(os)
 
     def printStatusEffects(self):
         os = []
@@ -941,7 +942,7 @@ class Player:
         for pair in self.statusMap:
             self.printIfHaveStatus(pair)
         os.append("}\n")
-        return os
+        return "".join(os)
 
     def __str__(self):
         os = []
