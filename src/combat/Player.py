@@ -58,7 +58,7 @@ class Player:
 
     # todo rework all of the power data structures...
 
-    def setHasRelic(self, r, value):
+    def setHasRelic(self, r:RelicId, value):
         if value:
             if int(r) < 64:
                 self.relicBits0 |= 1 << int(r)
@@ -70,7 +70,7 @@ class Player:
             else:
                 self.relicBits1 &= ~(1 << (int(r) - 64))
 
-    def setHasStatus(self, s, value):
+    def setHasStatus(self, s:PlayerStatus, value):
         #        static_assert(s != PlayerStatus::THE_BOMB)
 
         if (s == PlayerStatus.ARTIFACT) or (s == PlayerStatus.DEXTERITY) or (s == PlayerStatus.STRENGTH) or (
@@ -90,7 +90,7 @@ class Player:
             else:
                 self.statusBits1 &= ~(1 << (idx - 64))
 
-    def setStatusValueNoChecks(self, s, value):
+    def setStatusValueNoChecks(self, s:PlayerStatus, value):
         if s == PlayerStatus.ARTIFACT:
             self.artifact = value
 
@@ -106,10 +106,10 @@ class Player:
         else:
             self.statusMap[s] = value
 
-    def removeStatus(self, s):
+    def removeStatus(self, s:PlayerStatus):
         self.setHasStatus(s, value=False)
 
-    def decrementStatus(self, s, amount=1):
+    def decrementStatus(self, s:PlayerStatus, amount=1):
         if s == PlayerStatus.ARTIFACT:
             self.artifact -= amount
 
@@ -127,13 +127,13 @@ class Player:
             if not self.statusMap[s]:
                 self.setHasStatus(s, value=False)
 
-    def decrementIfNotJustApplied(self, s):
-        if self.wasJustApplied(s, ):
+    def decrementIfNotJustApplied(self, s:PlayerStatus):
+        if self.wasJustApplied(s):
             self.setJustApplied(s, False)
         else:
             self.decrementStatus(s, 1)
 
-    def hasStatusRuntime(self, s):
+    def hasStatusRuntime(self, s:PlayerStatus):
         if s == PlayerStatus.ARTIFACT:
             return self.artifact != 0
 
@@ -152,7 +152,7 @@ class Player:
         else:
             return (self.statusBits1 & (1 << (idx - 64))) != 0
 
-    def getStatusRuntime(self, s):
+    def getStatusRuntime(self, s:PlayerStatus):
         if s == PlayerStatus.ARTIFACT:
             return self.artifact
         elif s == PlayerStatus.DEXTERITY:
@@ -167,7 +167,7 @@ class Player:
             else:
                 return 0
 
-    def wasJustApplied(self, s):
+    def wasJustApplied(self, s:PlayerStatus):
         return (self.justAppliedBits & (1 << int(s))) != 0
 
     # to be used by:
@@ -177,25 +177,25 @@ class Player:
     # double damage
     # draw reduction
     # intangible
-    def setJustApplied(self, s, value):
+    def setJustApplied(self, s:PlayerStatus, value):
         if value:
             self.justAppliedBits |= (1 << int(s))
         else:
             self.justAppliedBits &= ~(1 << int(s))
 
-    def hasRelicRuntime(self, r):
+    def hasRelicRuntime(self, r:RelicId):
         if int(r) < 64:
             return (self.relicBits0 & (1 << int(r))) != 0
         else:
             return (self.relicBits1 & (1 << (int(r) - 64))) != 0
 
-    def hasRelic(self, r):
+    def hasRelic(self, r:RelicId):
         if int(r) < 64:
             return (self.relicBits0 & (1 << int(r))) != 0
         else:
             return (self.relicBits1 & (1 << (int(r) - 64))) != 0
 
-    def hasStatus(self, s):
+    def hasStatus(self, s:PlayerStatus):
         #        static_assert(s != PlayerStatus::THE_BOMB)
 
         if s == PlayerStatus.ARTIFACT:
@@ -216,7 +216,7 @@ class Player:
         else:
             return (self.statusBits1 & (1 << (idx - 64))) != 0
 
-    def getStatus(self, s):
+    def getStatus(self, s:PlayerStatus):
         if s == PlayerStatus.ARTIFACT:
             return self.artifact
         elif s == PlayerStatus.DEXTERITY:
@@ -237,7 +237,7 @@ class Player:
     # draw reduction
     # intangible
 
-    def buff(self, s, amount=1):
+    def buff(self, s:PlayerStatus, amount=1):
         # corruption effects handled elsewhere
 
         if amount == 0:
