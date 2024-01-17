@@ -1,40 +1,19 @@
-﻿from sts import *
+﻿
 
 import math
-
-#
-# Created by gamerpuppy on 7/4/2021.
-#
-
-
-#
-# Created by gamerpuppy on 7/4/2021.
-#
-
-
-#
-# Created by gamerpuppy on 4/21/2021.
-#
-
-
-
-
-# powers that use justApplied:
-# Vulnerable, requires isSourceMonster and actionManager turn has ended
-# Frail, requires isSourceMonster
-
-class sts: #this class replaces the original namespace 'sts'
-
-# C++ TO PYTHON CONVERTER NOTE: Python has no need of forward class declarations:
-#    class BattleContext
-
+from ..constants.PlayerStatusEffects import Stance
+from bitarray import bitarray
+from ..constants.PlayerStatusEffects import PlayerStatus
+from ..constants.Relics import RelicId
+from ..constants.Cards import CardId
+from CardInstance import CardInstance
+from ..constants.Potions import Potion
     class Player:
 
         def __init__(self):
-            # instance fields found by C++ to Python Converter:
-            self.cc = 0
+            self.cc = None
             self.gold = 0
-            self.curHp = 80
+            self.curHp = 8000
             self.maxHp = 80
             self.energy = 0
             self.energyPerTurn = 3
@@ -74,44 +53,24 @@ class sts: #this class replaces the original namespace 'sts'
             self.bomb1 = 0
             self.bomb2 = 0
             self.bomb3 = 0
-
-
-
-
-        # for spire spear/shield
-
+            self.orangePelletsCardTypesPlayed = bitarray(3)
         # todo rework all of the power data structures...
 
 
 
-        # special info
-
-
-# C++ TO PYTHON CONVERTER TASK: The following line could not be converted:
-        std::bitset<3> orangePelletsCardTypesPlayed;
-
-        # currently unused
-
-
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template <RelicId r> void setHasRelic(bool value)
-        def setHasRelic(self, value):
+        def setHasRelic(self, r, value):
             if value:
                 if int(r) < 64:
-                    self.relicBits0 |= ulong(1 << int(r))
+                    self.relicBits0 |= 1 << int(r)
                 else:
-                    self.relicBits1 |= ulong(1 << (int(r)-64))
+                    self.relicBits1 |= 1 << (int(r)-64)
             else:
                 if int(r) < 64:
-                    self.relicBits0 &= ulong(~(1 << int(r)))
+                    self.relicBits0 &= ~(1 << int(r))
                 else:
-                    self.relicBits1 &= ulong(~(1 << (int(r)-64)))
+                    self.relicBits1 &= ~(1 << (int(r)-64))
 
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template <PlayerStatus> void setHasStatus(bool value)
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
-        def setHasStatus(self, value):
+        def setHasStatus(self, s, value):
             #        static_assert(s != PlayerStatus::THE_BOMB)
 
             if (s == PlayerStatus.ARTIFACT) or (s == PlayerStatus.DEXTERITY) or (s == PlayerStatus.STRENGTH) or (s == PlayerStatus.FOCUS):
@@ -121,20 +80,17 @@ class sts: #this class replaces the original namespace 'sts'
             idx = int(s)
             if value:
                 if idx < 64:
-                    self.statusBits0 |= ulong(1 << idx)
+                    self.statusBits0 |= 1 << idx
                 else:
-                    self.statusBits1 |= uint(1 << (idx-64))
+                    self.statusBits1 |= 1 << (idx-64)
             else:
                 if idx < 64:
-                    self.statusBits0 &= ulong(~(1 << idx))
+                    self.statusBits0 &= ~(1 << idx)
                 else:
-                    self.statusBits1 &= uint(~(1 << (idx-64)))
+                    self.statusBits1 &= ~(1 << (idx-64))
 
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template <PlayerStatus> void setStatusValueNoChecks(int value)
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
-        def setStatusValueNoChecks(self, value):
+
+        def setStatusValueNoChecks(self, s,value):
             if s == PlayerStatus.ARTIFACT:
                 self.artifact = value
 
@@ -150,18 +106,12 @@ class sts: #this class replaces the original namespace 'sts'
             else:
                 self.statusMap[s] = value
 
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template <PlayerStatus> void removeStatus()
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
-        def removeStatus(self):
-            setHasStatus(False)
 
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template <PlayerStatus> void decrementStatus(int amount=1)
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
-        def decrementStatus(self, amount = 1):
+        def removeStatus(self,s):
+            self.setHasStatus(s,value=False)
+
+
+        def decrementStatus(self, s,amount = 1):
             if s == PlayerStatus.ARTIFACT:
                 self.artifact -= amount
 
@@ -177,23 +127,16 @@ class sts: #this class replaces the original namespace 'sts'
             else:
                 self.statusMap[s] -= amount
                 if not self.statusMap[s]:
-                    setHasStatus(False)
+                    self.setHasStatus(s,value=False)
 
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template <PlayerStatus> void decrementIfNotJustApplied()
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
-        def decrementIfNotJustApplied(self):
-            if wasJustApplied():
-                setJustApplied(False)
+
+        def decrementIfNotJustApplied(self,s):
+            if self.wasJustApplied(s,):
+                self.setJustApplied(s,False)
             else:
-                decrementStatus(1)
+                self.decrementStatus(s,1)
 
 
-        # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-        # ORIGINAL LINE: [[nodiscard]] bool hasStatusRuntime(PlayerStatus s) const
-# C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-# ORIGINAL LINE: bool hasStatusRuntime(PlayerStatus s) const
         def hasStatusRuntime(self, s):
             if s == PlayerStatus.ARTIFACT:
                 return self.artifact != 0
@@ -214,10 +157,7 @@ class sts: #this class replaces the original namespace 'sts'
             else:
                 return (self.statusBits1 & (1 << (idx-64))) != 0
 
-        # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-        # ORIGINAL LINE: [[nodiscard]] int getStatusRuntime(PlayerStatus s) const; // for values that are stored in the map only
-# C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-# ORIGINAL LINE: int getStatusRuntime(PlayerStatus s) const
+
         def getStatusRuntime(self, s):
             if s == PlayerStatus.ARTIFACT:
                 return self.artifact
@@ -233,21 +173,10 @@ class sts: #this class replaces the original namespace 'sts'
                 else:
                     return 0
 
-        # for statuses classified as debuff only
-        # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-        # ORIGINAL LINE: template <PlayerStatus> [[nodiscard]] bool wasJustApplied() const
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
-# C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-# ORIGINAL LINE: bool wasJustApplied() const
-        def wasJustApplied(self):
+
+        def wasJustApplied(self,s):
             return (self.justAppliedBits & (1 << int(s))) != 0
 
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template<PlayerStatus> void setJustApplied(bool value)
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template<typename > requires PlayerStatus<>
 
     # to be used by:
     # frail
@@ -256,44 +185,26 @@ class sts: #this class replaces the original namespace 'sts'
     # double damage
     # draw reduction
     # intangible
-        def setJustApplied(self, value):
+        def setJustApplied(self, s,value):
             if value:
-                self.justAppliedBits |= uint((1 << int(s)))
+                self.justAppliedBits |= (1 << int(s))
             else:
-                self.justAppliedBits &= uint(~(1 << int(s)))
+                self.justAppliedBits &= ~(1 << int(s))
 
 
-        # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-        # ORIGINAL LINE: [[nodiscard]] bool hasRelicRuntime(RelicId r) const
-# C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-# ORIGINAL LINE: bool hasRelicRuntime(RelicId r) const
         def hasRelicRuntime(self, r):
             if int(r) < 64:
                 return (self.relicBits0 & (1 << int(r))) != 0
             else:
                 return (self.relicBits1 & (1 << (int(r)-64))) != 0
 
-        # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-        # ORIGINAL LINE: template <RelicId> [[nodiscard]] bool hasRelic() const
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires RelicId<>
-# C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-# ORIGINAL LINE: bool hasRelic() const
-        def hasRelic(self):
+        def hasRelic(self,r):
             if int(r) < 64:
                 return (self.relicBits0 & (1 << int(r))) != 0
             else:
                 return (self.relicBits1 & (1 << (int(r)-64))) != 0
 
-        # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-        # ORIGINAL LINE: template <PlayerStatus> [[nodiscard]] bool hasStatus() const
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
-# C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-# ORIGINAL LINE: bool hasStatus() const
-        def hasStatus(self):
+        def hasStatus(self,s):
             #        static_assert(s != PlayerStatus::THE_BOMB)
 
             if s == PlayerStatus.ARTIFACT:
@@ -315,14 +226,7 @@ class sts: #this class replaces the original namespace 'sts'
             else:
                 return (self.statusBits1 & (1 << (idx-64))) != 0
 
-        # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-        # ORIGINAL LINE: template <PlayerStatus> [[nodiscard]] int getStatus() const
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
-# C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-# ORIGINAL LINE: int getStatus() const
-        def getStatus(self):
+        def getStatus(self,s):
             if s == PlayerStatus.ARTIFACT:
                 return self.artifact
             elif s == PlayerStatus.DEXTERITY:
@@ -330,15 +234,11 @@ class sts: #this class replaces the original namespace 'sts'
             elif s == PlayerStatus.STRENGTH:
                 return self.strength
             else:
-                if hasStatus():
+                if self.hasStatus(s):
                     return self.statusMap[s]
                 else:
                     return 0
 
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template <PlayerStatus> void buff(int amount=1)
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
 
     # to be used by:
     # frail
@@ -348,7 +248,7 @@ class sts: #this class replaces the original namespace 'sts'
     # draw reduction
     # intangible
 
-        def buff(self, amount = 1):
+        def buff(self, s,amount = 1):
             # corruption effects handled elsewhere
 
             if amount == 0:
@@ -376,50 +276,47 @@ class sts: #this class replaces the original namespace 'sts'
                 return
 
             if s == PlayerStatus.BARRICADE or s == PlayerStatus.CORRUPTION or s == PlayerStatus.CONFUSED or s == PlayerStatus.PEN_NIB or s == PlayerStatus.SURROUNDED:
-                setHasStatus(True)
+                self.setHasStatus(s,True)
                 return
 
             if s == PlayerStatus.DOUBLE_DAMAGE or s == PlayerStatus.INTANGIBLE:
-                setJustApplied(True)
+                self.setJustApplied(s,True)
 
             if s == PlayerStatus.COMBUST:
                 self.combustHpLoss += 1
 
-            if s == PlayerStatus.PANACHE and not hasStatus():
+            if s == PlayerStatus.PANACHE and not self.hasStatus(s):
                 self.panacheCounter = 5
 
-            if hasStatus():
+            if self.hasStatus(s):
                 self.statusMap[s] += amount
             else:
-                setHasStatus(True)
+                self.setHasStatus(s,True)
                 self.statusMap[s] = amount
 
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template <PlayerStatus> void debuff(int amount, bool isSourceMonster=true)
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires PlayerStatus<>
-        def debuff(self, amount, isSourceMonster = True):
+
+        def debuff(self, s, amount, isSourceMonster = True):
             if amount == 0:
                 return
 
-            if s == PlayerStatus.WEAK and hasRelic():
+            if s == PlayerStatus.WEAK and self.hasRelic():
                 return
 
-            if s == PlayerStatus.FRAIL and hasRelic():
+            if s == PlayerStatus.FRAIL and self.hasRelic():
                 return
 
-            if hasStatus():
-                decrementStatus(1)
+            if self.hasStatus(s):
+                self.decrementStatus(s,1)
                 return
 
             if s == PlayerStatus.WEAK or s == PlayerStatus.FRAIL or s == PlayerStatus.VULNERABLE or s == PlayerStatus.DRAW_REDUCTION:
-                if isSourceMonster and not hasStatus():
-                    setJustApplied(True)
+                if isSourceMonster and not self.hasStatus(s):
+                    self.setJustApplied(s,True)
 
             if s == PlayerStatus.DRAW_REDUCTION:
                 self.cardDrawPerTurn -= 1
-                setJustApplied(True)
-                setHasStatus(True)
+                self.setJustApplied(s,True)
+                self.setHasStatus(s,True)
                 return
 
             if s == PlayerStatus.STRENGTH:
@@ -433,93 +330,87 @@ class sts: #this class replaces the original namespace 'sts'
                 return
 
             if s == PlayerStatus.CONFUSED or s == PlayerStatus.HEX:
-                setHasStatus(True)
+                self.setHasStatus(s,True)
                 return
 
-            if hasStatus():
+            if self.hasStatus(s):
                 self.statusMap[s] += amount
             else:
                 self.statusMap[s] = amount
 
-            setHasStatus(True)
+            self.setHasStatus(s,True)
 
-        # C++ TO PYTHON CONVERTER TASK: C++ 'constraints' are not converted by C++ to Python Converter:
-        # ORIGINAL LINE: template <Stance> void changeStance()
-# C++ TO PYTHON CONVERTER TASK: The following C++ template specifier cannot be converted to Python:
-# ORIGINAL LINE: template <typename > requires Stance<>
-        def changeStance(self):
+
+        def changeStance(self,s):
             self.stance = s
 
         def removeDebuffs(self):
-            if getStatus() < 0:
-                setStatusValueNoChecks(0)
-            if getStatus() < 0:
-                setStatusValueNoChecks(0)
+            if self.getStatus(PlayerStatus.STRENGTH) < 0:
+                self.setStatusValueNoChecks(PlayerStatus.STRENGTH,0)
+            if self.getStatus(PlayerStatus.DEXTERITY) < 0:
+                self.setStatusValueNoChecks(PlayerStatus.DEXTERITY,0)
 
-            removeStatus()
-            removeStatus()
-            removeStatus()
+            self.removeStatus(PlayerStatus.BIAS)
+            self.removeStatus(PlayerStatus.CONFUSED)
+            self.removeStatus(PlayerStatus.CONSTRICTED)
 
-            if hasStatus():
+            if self.hasStatus(PlayerStatus.DRAW_REDUCTION):
                 self.cardDrawPerTurn += 1
-                removeStatus()
+                self.removeStatus(PlayerStatus.DRAW_REDUCTION)
 
-            removeStatus()
-            removeStatus()
-            removeStatus<PlayerStatus.FRAIL>()
-            removeStatus()
-            removeStatus()
-            removeStatus()
-            removeStatus()
-            removeStatus()
-            removeStatus()
-            removeStatus()
-            removeStatus()
+            self.removeStatus(PlayerStatus.ENTANGLED)
+            self.removeStatus(PlayerStatus.FASTING)
+            self.removeStatus(PlayerStatus.FRAIL)
+            self.removeStatus(PlayerStatus.HEX)
+            self.removeStatus(PlayerStatus.LOSE_DEXTERITY)
+            self.removeStatus(PlayerStatus.LOSE_STRENGTH)
+            self.removeStatus(PlayerStatus.NO_BLOCK)
+            self.removeStatus(PlayerStatus.NO_DRAW)
+            self.removeStatus(PlayerStatus.VULNERABLE)
+            self.removeStatus(PlayerStatus.WEAK)
+            self.removeStatus(PlayerStatus.WRAITH_FORM)
 
         def increaseMaxHp(self, amount):
             self.maxHp += amount
             self.heal(amount)
 
         def heal(self, amount):
-            if hasRelic():
+            if self.hasRelic(RelicId.MARK_OF_THE_BLOOM):
                 return
 
-            if hasRelic():
+            if self.hasRelic(RelicId.MAGIC_FLOWER):
                 amount = math.trunc(amount * 3 / float(2))
 
             wasBloodied = self.curHp <= math.trunc(self.maxHp / float(2))
 
             self.curHp = min(int(self.maxHp), self.curHp + amount)
 
-            if wasBloodied and self.curHp > math.trunc(self.maxHp / float(2)) and hasRelic<RelicId.RED_SKULL>():
-                debuff(3)
+            if wasBloodied and self.curHp > math.trunc(self.maxHp / float(2)) and self.hasRelic(RelicId.RED_SKULL):
+                self.debuff(PlayerStatus.STRENGTH,3)
 
         def damage(self, bc, calculatedDamage, selfDamage = False):
-# C++ TO PYTHON CONVERTER TASK: There is no preprocessor in Python:
-##if sts_asserts
+
             assert calculatedDamage >= 0
-##endif
+
 
             damage = calculatedDamage
 
-            if damage > 0 and hasStatus():
+            if damage > 0 and self.hasStatus(PlayerStatus.INTANGIBLE):
                 damage = 1
 
             savedBlock = self.block
             self.block = max(0, self.block-damage)
             damage -= savedBlock
 
-
-
             damage -= self.block
             if damage > 0:
                 self.block = 0
 
-            if damage > 0 and hasStatus():
-                decrementStatus()
+            if damage > 0 and self.hasStatus(PlayerStatus.BUFFER):
+                self.decrementStatus(PlayerStatus.BUFFER)
                 damage = 0
 
-            if damage > 0 and hasRelic():
+            if damage > 0 and self.hasRelic(RelicId.TUNGSTEN_ROD):
                 damage -= 1
 
             if damage > 0:
@@ -537,29 +428,29 @@ class sts: #this class replaces the original namespace 'sts'
 
             # buffer triggers before tungsten rod in the game's implementation
             # cases where tungsten rod would prevent damage // todo check if this is true
-            if damage > 0 and hasStatus():
-                decrementStatus()
+            if damage > 0 and self.hasStatus(PlayerStatus.BUFFER):
+                self.decrementStatus(PlayerStatus.BUFFER)
                 damage = 0
 
-            if hasStatus():
-                bc.addToTop(Actions.DamageEnemy(enemyIdx, getStatus()))
+            if self.hasStatus(PlayerStatus.THORNS):
+                bc.addToTop(Actions.DamageEnemy(enemyIdx, self.getStatus(PlayerStatus.THORNS)))
 
-            if hasStatus():
-                bc.addToTop(Actions.DamageEnemy(enemyIdx, getStatus()))
+            if self.hasStatus(PlayerStatus.FLAME_BARRIER):
+                bc.addToTop(Actions.DamageEnemy(enemyIdx, self.getStatus(PlayerStatus.FLAME_BARRIER)))
 
-            if damage > 0 and damage <=5 and hasRelic():
+            if damage > 0 and damage <=5 and self.hasRelic(RelicId.TORII):
                 damage = 1
 
-            if damage > 0 and hasRelic():
+            if damage > 0 and self.hasRelic(RelicId.TUNGSTEN_ROD):
                 damage -= 1
 
             if damage > 0:
                 self.lastAttackUnblockedDamage = damage
 
-                if hasStatus():
-                    decrementStatus()
+                if self.hasStatus(PlayerStatus.PLATED_ARMOR):
+                    self.decrementStatus(PlayerStatus.PLATED_ARMOR)
 
-                if bc.monsters.arr[enemyIdx].hasStatus():
+                if bc.monsters.arr[enemyIdx].hasStatus(PlayerStatus.PLATED_ARMOR):
                     bc.addToBot(Actions.MakeTempCardInDiscard(CardInstance(CardId.WOUND)))
 
                 self.hpWasLost(bc, damage, False)
@@ -568,10 +459,10 @@ class sts: #this class replaces the original namespace 'sts'
                 self.lastAttackUnblockedDamage = 0
 
         def loseHp(self, bc, amount, selfDamage):
-            if hasStatus():
+            if self.hasStatus(PlayerStatus.INTANGIBLE):
                 amount = 1
 
-            if amount > 0 and hasRelic():
+            if amount > 0 and self.hasRelic(RelicId.TUNGSTEN_ROD):
                 amount -= 1
                 if amount == 0:
                     return
@@ -581,12 +472,12 @@ class sts: #this class replaces the original namespace 'sts'
         def hpWasLost(self, bc, amount, selfDamage = False):
             assert amount > 0
 
-            wasBloodied = self.curHp <= math.trunc(self.maxHp / float(2))
+            wasBloodied = bool(self.curHp <= math.trunc(self.maxHp / float(2)))
 
             self.curHp = max(0, self.curHp-amount)
 
-            if selfDamage and hasStatus():
-                buff(getStatus())
+            if selfDamage and self.hasStatus(PlayerStatus.RUPTURE):
+                self.buff(PlayerStatus.STRENGTH,self.getStatus(PlayerStatus.RUPTURE))
 
             # todo - does order acquired matter with centennial/runic?
             # relics wasHpLost
@@ -595,22 +486,22 @@ class sts: #this class replaces the original namespace 'sts'
             # -runic cube
             # -self forming clay
 
-            if hasRelic():
-                setHasRelic(False)
+            if self.hasRelic(RelicId.CENTENNIAL_PUZZLE):
+                self.setHasRelic(RelicId.CENTENNIAL_PUZZLE,False)
                 bc.addToTop(Actions.DrawCards(3))
 
-            if hasRelic():
+            if self.hasRelic(RelicId.EMOTION_CHIP):
                 # todo
                 pass
 
-            if hasRelic():
-                buff(3)
+            if self.hasRelic(RelicId.SELF_FORMING_CLAY):
+                self.buff(PlayerStatus.NEXT_TURN_BLOCK,3)
 
-            if hasRelic():
+            if self.hasRelic(RelicId.RUNIC_CUBE):
                 bc.addToTop(Actions.DrawCards(1))
 
-            if hasRelic<RelicId.RED_SKULL>() and (not wasBloodied) and self.curHp <= math.trunc(self.maxHp / float(2)):
-                buff(3)
+            if self.hasRelic(RelicId.RED_SKULL) and (not wasBloodied) and self.curHp <= math.trunc(self.maxHp / float(2)):
+                self.buff(PlayerStatus.STRENGTH,3)
 
             bc.cards.onTookDamage()
             self.timesDamagedThisCombat += 1
@@ -621,18 +512,18 @@ class sts: #this class replaces the original namespace 'sts'
         def wouldDie(self, bc):
             # assume fairy and lizard tail heal for greater than zero - max hp is not less than ~8
             self.curHp = 0
-            if not hasRelic():
+            if not self.hasRelic(RelicId.MARK_OF_THE_BLOOM):
                 i = 0
                 while i < bc.potionCapacity:
                     if bc.potions[i] == Potion.FAIRY_POTION:
                         bc.discardPotion(i)
-                        healAmount = max(1, int((float(self.maxHp) * (0.6 if hasRelic() else 0.3))))
+                        healAmount = max(1, int((float(self.maxHp) * (0.6 if self.hasRelic(RelicId.SACRED_BARK) else 0.3))))
                         self.heal(healAmount)
                         return
                     i += 1
 
-                if hasRelic<RelicId.LIZARD_TAIL>():
-                    setHasRelic<RelicId.LIZARD_TAIL>(False)
+                if self.hasRelic(RelicId.LIZARD_TAIL):
+                    self.setHasRelic(RelicId.LIZARD_TAIL,False)
                     self.heal(math.trunc(self.maxHp / float(2)))
                     return
 
@@ -644,8 +535,8 @@ class sts: #this class replaces the original namespace 'sts'
 
             self.block += amount
 
-            if hasStatus():
-                bc.addToBot(Actions.DamageRandomEnemy(getStatus()))
+            if self.hasStatus(PlayerStatus.JUGGERNAUT):
+                bc.addToBot(Actions.DamageRandomEnemy(self.getStatus(PlayerStatus.JUGGERNAUT)))
 
             # todo watcher weak power
 

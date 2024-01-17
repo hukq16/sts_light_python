@@ -373,7 +373,7 @@ class CardId(Enum):
     WREATH_OF_FLAME = 368
     WRITHE = 369
     ZAP = 370
-    
+
     def __int__(self):
         return self.value
 
@@ -386,6 +386,8 @@ class CardRarity(Enum):
     SPECIAL = 4
     CURSE = 5
     INVALID = 6
+    def __int__(self):
+        return self.value
 
 
 class CardColor(Enum):
@@ -396,6 +398,8 @@ class CardColor(Enum):
     COLORLESS = 4
     CURSE = 5
     INVALID = 6
+    def __int__(self):
+        return self.value
 
 
 class CardType(Enum):
@@ -405,6 +409,8 @@ class CardType(Enum):
     CURSE = 3
     STATUS = 4
     INVALID = 5
+    def __int__(self):
+        return self.value
 
 
 cardRarityPrices = [50, 75, 150, -1, -1, -1, -1]

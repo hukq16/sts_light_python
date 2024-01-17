@@ -1,15 +1,4 @@
-﻿#
-# Created by gamerpuppy on 7/4/2021.
-#
-
-
-
-
-
-class sts: #this class replaces the original namespace 'sts'
-
-# C++ TO PYTHON CONVERTER NOTE: Python has no need of forward class declarations:
-#    class BattleContext
+﻿
     class ActionFunction:
         def invoke(self, UnnamedParameter):
             pass

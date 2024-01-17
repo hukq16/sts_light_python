@@ -1,4 +1,4 @@
-﻿from sts import *
+﻿
 
 import math
 
@@ -14,17 +14,16 @@ import math
 
 
 
-class sts: #this class replaces the original namespace 'sts'
 
-# C++ TO PYTHON CONVERTER NOTE: Python has no need of forward class declarations:
-#    class BattleContext
 
-    class DamageInfo:
 
-        def __init__(self):
-            # instance fields found by C++ to Python Converter:
-            self.damage = 0
-            self.attackCount = 1
+class DamageInfo:
+
+    def __init__(self,damage = 0, attackCount = 1):
+        # instance fields found by C++ to Python Converter:
+        self.damage = damage
+        self.attackCount = attackCount
+
 
 
     class Monster:

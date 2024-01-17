@@ -1,42 +1,29 @@
-﻿from sts import *
+﻿
 
 from enum import Enum
 import math
+from ..constants.MonsterEncounters import MonsterEncounter
+from sts_random import stsRandom
+from InputState import  InputState
+from CardSelectInfo import CardSelectInfo
 
-#
-# Created by gamerpuppy on 7/4/2021.
-#
+class Outcome(Enum):
+    UNDECIDED = 0
+    PLAYER_VICTORY = 1
+    PLAYER_LOSS = 2
 
-#
-# Created by gamerpuppy on 7/4/2021.
-#
+    def __int__(self):
+        return self.value
 
-
-
-
-
-
-class sts: #this class replaces the original namespace 'sts'
-
+battleOutcomeStrings = ["UNDECIDED", "PLAYER_VICTORY", "PLAYER_LOSS"]
 
 
-    class Outcome(Enum):
-        UNDECIDED = 0
-        PLAYER_VICTORY = 1
-        PLAYER_LOSS = 2
 
-    battleOutcomeStrings = ["UNDECIDED", "PLAYER_VICTORY", "PLAYER_LOSS"]
 
-# C++ TO PYTHON CONVERTER NOTE: Python has no need of forward class declarations:
-#    class GameContext
-
-# C++ TO PYTHON CONVERTER NOTE: 'extern' variable declarations are not required in Python:
-#    extern thread_local BattleContext *g_debug_bc
 
     class BattleContext:
 
-        def _initialize_instance_fields(self):
-            # instance fields found by C++ to Python Converter:
+        def __init__(self):
             self.haveUsedDiscoveryAction = False
             self.undefinedBehaviorEvoked = False
             self.seed = 0
@@ -45,12 +32,12 @@ class sts: #this class replaces the original namespace 'sts'
             self.loopCount = 0
             self.energyWasted = 0
             self.cardsDrawn = 0
-            self.aiRng = Random()
-            self.cardRandomRng = Random()
-            self.miscRng = Random()
-            self.monsterHpRng = Random()
-            self.potionRng = Random()
-            self.shuffleRng = Random()
+            self.aiRng = stsRandom()
+            self.cardRandomRng = stsRandom()
+            self.miscRng = stsRandom()
+            self.monsterHpRng = stsRandom()
+            self.potionRng = stsRandom()
+            self.shuffleRng = stsRandom()
             self.ascension = 0
             self.outcome = Outcome.UNDECIDED
             self.inputState = InputState.EXECUTING_ACTIONS
@@ -71,9 +58,8 @@ class sts: #this class replaces the original namespace 'sts'
             self.curCardQueueItem = CardQueueItem()
 
 
-        # begin for debugging purposes
+
         sum = 0 # for preventing optimization in benchmarks
-        # end for debugging purposes
 
 
 

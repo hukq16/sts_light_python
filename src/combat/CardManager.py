@@ -1,23 +1,5 @@
-﻿from sts import *
+﻿
 
-#
-# Created by gamerpuppy on 7/24/2021.
-#
-
-#
-# Created by gamerpuppy on 7/24/2021.
-#
-
-
-
-
-
-class sts: #this class replaces the original namespace 'sts'
-
-# C++ TO PYTHON CONVERTER NOTE: Python has no need of forward class declarations:
-#    class GameContext
-# C++ TO PYTHON CONVERTER NOTE: Python has no need of forward class declarations:
-#    class Card
 
     class CardManager:
 
@@ -47,10 +29,7 @@ class sts: #this class replaces the original namespace 'sts'
 
 
 
-# C++ TO PYTHON CONVERTER TASK: There is no preprocessor in Python:
-##if sts_card_manager_use_fixed_list
-##else
-##endif
+
 
         def init(self, gc, bc):
 

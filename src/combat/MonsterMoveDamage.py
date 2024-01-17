@@ -1,15 +1,9 @@
-﻿#
-# Created by gamerpuppy on 9/27/2021.
-#
-
-
-from sts import *
+﻿
 
 import math
-
-# C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-# ORIGINAL LINE: DamageInfo Monster::getMoveBaseDamage(const BattleContext &bc) const
-def getMoveBaseDamage(bc):
+from ..constants.MonsterMoves import MonsterMoveId
+from Monster import DamageInfo
+def getMoveBaseDamage(bc,moveHistory):
     asc2 = bc.ascension >= 2
     asc3 = bc.ascension >= 3
     asc4 = bc.ascension >= 4

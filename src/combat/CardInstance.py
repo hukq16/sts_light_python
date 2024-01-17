@@ -1,10 +1,12 @@
 ﻿from ..constants.Cards import *
 from ..game.Card import Card
+
+
 class CardInstance:
 
     # todo dont need all of these, also put in bitset
 
-    def __init__(self, id:CardId = None, upgraded=False,card:Card = None):
+    def __init__(self, id: CardId = None, upgraded=False, card: Card = None):
         self.id = CardId.INVALID
         self.uniqueId = -1
         self.specialData = 0
@@ -33,100 +35,54 @@ class CardInstance:
     def getType(self):
         return getCardType(self.id)
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] const char *getName() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: const char *getName() const
     def getName(self):
         if self.upgraded:
             pass
-        return cardNames[int(self.id)]
+        return getCardName(self.id)
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] std::int16_t getUniqueId() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: short getUniqueId() const
     def getUniqueId(self):
         return self.uniqueId
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool isUpgraded() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool isUpgraded() const
     def isUpgraded(self):
         return self.upgraded
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] int getUpgradeCount() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: int getUpgradeCount() const
     def getUpgradeCount(self):
         if self.id == CardId.SEARING_BLOW:
             return self.specialData
         else:
             return 1 if self.upgraded & 0x1 else 0
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool canUpgrade() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool canUpgrade() const
     def canUpgrade(self):
         return ((
                     not self.upgraded) or self.id == CardId.SEARING_BLOW) and self.getType() != CardType.CURSE and self.getType() != CardType.STATUS
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool isEthereal() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool isEthereal() const
+
     def isEthereal(self):
         return isCardEthereal(self.id, self.upgraded)
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool isStrikeCard() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool isStrikeCard() const
     def isStrikeCard(self):
         return isCardStrikeCard(self.id)
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool doesExhaust() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool doesExhaust() const
+
     def doesExhaust(self):
         return doesCardExhaust(self.id, self.upgraded)
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool hasSelfRetain() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool hasSelfRetain() const
+
     def hasSelfRetain(self):
         return doesCardSelfRetain(self.id, self.upgraded)
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool requiresTarget() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool requiresTarget() const
+
     def requiresTarget(self):
         return cardTargetsEnemy(self.id, self.isUpgraded())
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool isXCost() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool isXCost() const
+
     def isXCost(self):
         return isXCost(self.id)
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool isBloodCard() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool isBloodCard() const
     def isBloodCard(self):
         return self.getId() == CardId.BLOOD_FOR_BLOOD or self.getId() == CardId.MASTERFUL_STAB
 
-    # C++ TO PYTHON CONVERTER TASK: C++ attributes are not converted to Python:
-    # ORIGINAL LINE: [[nodiscard]] bool usesSpecialData() const
-    # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
-    # ORIGINAL LINE: bool usesSpecialData() const
+
     def usesSpecialData(self):
         if (self.getId() == CardId.SEARING_BLOW) or (self.getId() == CardId.RAMPAGE) or (
                 self.getId() == CardId.GENETIC_ALGORITHM) or (self.getId() == CardId.RITUAL_DAGGER):
@@ -135,10 +91,9 @@ class CardInstance:
         else:
             return False
 
-    # *****  *****
     def upgradeBaseCost(self, newBaseCost):
         diff = self.costForTurn - self.cost
-        self.cost = sbyte(newBaseCost)
+        self.cost = newBaseCost
         if self.costForTurn > 0:
             self.costForTurn = max(0, self.cost + diff)
 
@@ -148,23 +103,20 @@ class CardInstance:
 
         if tmpCost != self.cost:
             self.cost = tmpCost
-            self.costForTurn = max(0, int(self.cost) - diff)
+            self.costForTurn = max(0, self.cost - diff)
 
-    #        void modifyCostForCombat(int amount)
 
     def setCostForCombat(self, newCost):
         # todo should this set costForTurn to newCost? this isn't used exactly like this in game
-        self.cost = sbyte(newCost)
+        self.cost = newCost
 
     def setCostForTurn(self, newCost):
-        ##ifdef sts_asserts
-        #    assert(newCost >= 0)
-        ##endif
+
         if self.costForTurn >= 0:
             self.costForTurn = max(0, newCost)
 
     def setUniqueId(self, _uniqueId):
-        self.uniqueId = short(_uniqueId)
+        self.uniqueId = _uniqueId
 
     def upgrade(self):
 
@@ -200,14 +152,15 @@ class CardInstance:
     # C++ TO PYTHON CONVERTER WARNING: 'const' methods are not available in Python:
     # ORIGINAL LINE: std::ostream &printSimpleDesc(std::ostream &os) const
     def printSimpleDesc(self, os):
-        os << self.getName()
+        print(self.getName())
         if (self.id == CardId.RITUAL_DAGGER) or (self.id == CardId.RAMPAGE):
-            os << "=" << self.specialData
+            print("=")
+            print(self.specialData)
 
         if self.upgraded:
-            os << "+"
+            print("+")
             if self.id == CardId.SEARING_BLOW:
-                os << self.upgraded
+                print(self.upgraded)
         return os
 
     def triggerOnExhaust(self, bc):
