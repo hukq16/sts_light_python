@@ -23,6 +23,7 @@ class CardSelectTask(Enum):
     SEEK = 18
     SETUP = 19
     WARCRY = 20
+
     def __int__(self):
         return self.value
 
