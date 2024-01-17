@@ -129,7 +129,7 @@ class Orb(Enum):
         return self.value
 
 
-playerStatusStrings = {
+playerStatusStrings = [
     "INVALID", "Double Damage", "Draw Reduction", "Frail", "Intangible",
     "Vulnerable", "Weak", "Bias", "Confused", "Constricted", "Entangled",
     "Fasting", "Hex", "Lose Dexterity", "Lose Strength", "No Block",
@@ -148,9 +148,9 @@ playerStatusStrings = {
     "Static Discharge", "Thorns", "Thousand Cuts", "Tools Of The Trade",
     "Vigor", "Wave Of The Hand", "Equilibrium", "Artifact", "Dexterity",
     "Strength", "The Bomb",
-}
+]
 
-playerStatusEnumStrings = (
+playerStatusEnumStrings = [
     "INVALID", "DOUBLE_DAMAGE", "DRAW_REDUCTION", "FRAIL", "INTANGIBLE",
     "VULNERABLE", "WEAK", "BIAS", "CONFUSED", "CONSTRICTED", "ENTANGLED",
     "FASTING", "HEX", "LOSE_DEXTERITY", "LOSE_STRENGTH", "NO_BLOCK",
@@ -169,4 +169,4 @@ playerStatusEnumStrings = (
     "STATIC_DISCHARGE", "THORNS", "THOUSAND_CUTS", "TOOLS_OF_THE_TRADE",
     "VIGOR", "WAVE_OF_THE_HAND", "EQUILIBRIUM", "ARTIFACT", "DEXTERITY",
     "STRENGTH", "THE_BOMB",
-)
+]

@@ -935,12 +935,12 @@ class Player:
             os.append("(Corruption), ")
         if self.hasStatus(PlayerStatus.BARRICADE):
             os.append("(Barricade), ")
-        self.printIfHaveStatus(PlayerStatus.ARTIFACT)
-        self.printIfHaveStatus(PlayerStatus.DEXTERITY)
-        self.printIfHaveStatus(PlayerStatus.FOCUS)
-        self.printIfHaveStatus(PlayerStatus.STRENGTH)
+        os.append(self.printIfHaveStatus(PlayerStatus.ARTIFACT))
+        os.append(self.printIfHaveStatus(PlayerStatus.DEXTERITY))
+        os.append(self.printIfHaveStatus(PlayerStatus.FOCUS))
+        os.append(self.printIfHaveStatus(PlayerStatus.STRENGTH))
         for pair in self.statusMap:
-            self.printIfHaveStatus(pair)
+            os.append(self.printIfHaveStatus(pair))
         os.append("}\n")
         return "".join(os)
 
